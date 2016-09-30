@@ -1,0 +1,182 @@
+\documentclass[12pt,addpoints]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{mdframed}
+\usepackage{array}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{algpseudocode}
+
+% Paramètres globaux
+\bonuspointpoints{point \emph{bonus}}{points \emph{boni}}
+\parindent 0cm
+\hqword{Question}
+\hpword{Sur}
+\hsword{Note}
+\htword{Total}
+
+% Solutions
+\printanswers
+
+% En-tête et pieds de page
+\headrule
+\cfoot{\thepage /\pageref{LastPage}}
+\lhead{INF5071 --- Infographie}
+\rhead{Automne 2016}
+\newcommand{\headrulewidth}{0.4pt}
+\newcommand{\footrulewidth}{0.4pt}
+
+% Algorithmes
+\algrenewcommand\algorithmicwhile{\textbf{tant que}}
+\algrenewcommand\algorithmicfunction{\textbf{fonction}}
+\algrenewcommand\algorithmicend{\textbf{fin}}
+\algrenewcommand\algorithmicdo{\textbf{faire}}
+\algrenewcommand\algorithmicfor{\textbf{pour}}
+\algrenewcommand\algorithmicif{\textbf{si}}
+\algrenewcommand\algorithmicelse{\textbf{sinon}}
+\algrenewcommand\algorithmicthen{\textbf{alors}}
+\algrenewcommand\algorithmicreturn{\textbf{retourner}}
+\algrenewcommand\algorithmicrepeat{\textbf{faire}}
+\algrenewcommand\algorithmicuntil{\textbf{tant que}}
+\newcommand{\enteteproc}[2]{\vskip\baselineskip \hspace*{\fill} \algorithmicprocedure~\Call{#1}{#2} \hspace*{\fill} \vskip\baselineskip}
+\newcommand{\entetefunc}[3]{\vskip\baselineskip \hspace*{\fill} \algorithmicfunction~\Call{#1}{#2} : #3 \hspace*{\fill} \vskip\baselineskip}
+
+% Code
+\lstset{
+  literate={é}{{\'e}}1
+           {è}{{\`e}}1
+           {ê}{{\^e}}1
+           {î}{{\^i}}1
+           {à}{{\`a}}1
+           {É}{{\'E}}1,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!70!black},
+  identifierstyle=\color{blue},
+  commentstyle=\ttfamily\color{red!70!black}\emph,
+  stringstyle=\bfseries\color{orange},
+  showstringspaces=false,
+  language=python,
+  breaklines=true
+}
+
+% Raccourcis
+\newcommand{\bigo}{\mathcal{O}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+	
+\ifprintanswers
+  \vskip 1.2cm
+  \centerline{\large\underline{\textbf{Solution du devoir 1}}}
+  \vskip 0.5cm
+  \begin{mdframed} \begin{center}
+  \textbf{Auteur : Alexandre Blondin Massé} \\
+  \end{center} \end{mdframed}
+  \vskip 0.5cm
+\else
+  \vskip 1.2cm
+  \centerline{\large\underline{\textbf{Devoir 1}}}
+  \centerline{\small (à remettre au plus tard le 19 octobre, à 16h00)}
+  \centerline{\small (en classe ou dans la chute du département d'informatique, située au PK-4150)}
+  \vskip 1.2cm
+Le devoir doit être rédigé \textbf{individuellement} et à l'\textbf{ordinateur} (il est cependant permis de remettre des annexes avec des \textbf{schémas dessinés} manuellement). Vous devez \textbf{justifier} chacune de vos réponses. Tout retard entraînera une pénalité de \textbf{20\%} par jour ouvrable.
+\fi
+
+\ifprintanswers
+\else
+\begin{center} \gradetable[h] \end{center}
+\fi
+
+\begin{questions}
+
+% Projection isométrique
+\question
+Supposons qu'une application graphique utilise des images de dimensions $64 \times 32$ pixels$^2$ pour représenter des tuiles en \emph{projection isométrique} (dans le dessin ci-bas, un exemple d'image contenant une tuile est identifié par un rectangle bleu).
+\begin{parts}
+  \part[15] Expliquez comment calculer la position du coin supérieur gauche d'une tuile $10 \times 10$ qu'on place dans une grille indexée comme l'illustre la grille ci-bas~:
+\begin{center} \includegraphics{images/isometrique.pdf} \end{center}
+Autrement dit, donnez le pseudocode d'une fonction
+\entetefunc{CoinSupGauche}{$i,j$ : indices}{point}
+qui retourne la position que devrait occuper le coin supérieur gauche du rectangle contenant la tuile aux indices $i$ et $j$. Par exemple, on s'attend à ce que l'appel $\Call{CoinSupGauche}{4,2}$ retourne la valeur $(352,192)$ (voir le rectangle bleu dans l'image ci-haut).
+  \part[10] Dans la question ci-bas, nous avons supposé que toutes les tuiles se trouvaient à la même hauteur. Supposons que nous souhaitions également supporter la possibilité d'afficher des tuiles plus hautes que d'autres. En utilisant des notions d'algèbres linéaire et vectorielle, expliquez de quelle façon vous traiteriez cette situation et montrez en particulier que certaines tuiles à des hauteurs différentes pourraient apparaître exactement au même endroit.
+  \bonuspart[5] Le concepteur principal d'un jeu appelé \emph{Super Hexagon} est auteur d'un autre jeu qui exploite le fait que différentes tuiles à des hauteurs différentes apparaissent au même endroit. Quel est le nom de ce jeu et qui en est l'auteur ?
+\end{parts}
+\begin{solution}
+Ajouter votre solution ici
+\end{solution}
+
+% Génération procédurale
+\question[20]
+Supposez que les services suivants sont disponibles pour manipuler des maillages~:
+\begin{itemize}
+  \item $M \gets \Call{MaillageVide}$ construit un maillage vide et le stocke dans la variable $M$.
+  \item $M.\Call{AjouterSommet}{p}$ ajoute un sommet dans le maillage $M$ et dont les coordonnées sont données par le point $p$.
+  \item $M.\Call{AjouterArete}{p_1,p_2}$ ajoute une arête entre les sommets $p_1$ et $p_2$ dans le maillage $M$. Si un ou les deux sommets n'existent pas dans la structure, une erreur est signalée.
+  \item $M.\Call{AjouterFace}{P}$ ajoute une face dont les sommets sont donnés par la liste $P$. Ces sommets doivent être énumérés dans l'ordre antihoraire lorsqu'on regarde vers l'\emph{extérieur} de la face. De plus, s'il n'y a pas d'arêtes entre deux sommets consécutifs, une erreur est signalée.
+\end{itemize}
+
+Donnez le \textbf{pseudocode} d'une fonction dont l'en-tête est
+\entetefunc{Grille}{$m,n$ : entiers positifs, $d,e$ : réels}{maillage}
+et qui retourne un maillage modélisant une grille de $m$ carrés par $n$ carrés, dont l'épaisseur est donnée par $e$ et la distance entre les carrés de la grille est donnée par $d$. Autrement dit, si vous implémentiez votre fonction dans un script Blender et que vous utilisiez les paramètres $m = 3$, $n = 4$, $e = 0.1$ et $d = 1.0$, alors vous vous attendriez à obtenir un maillage similaire à celui illustré dans l'image ci-bas.
+
+\textbf{Attention !} La topologie de votre maillage doit être bien définie. Autrement dit, aucune erreur ne doit être signalée (vous devez donc d'abord ajouter les sommets, ensuite les arêtes, puis finalement les faces) et vous devez vous assurer que c'est le côté \emph{visible} des faces (c'est-à-dire vers l'extérieur) qui est décrit en sens antihoraire.
+
+\textbf{Note~:} Vous pouvez utiliser la notation $[p_1,p_2,p_3,p_4]$ pour dénoter une liste qui contient les quatre points $p_1$, $p_2$, $p_3$ et $p_4$ (autrement dit, vous pouvez utiliser des crochets pour dénoter des listes). Aussi, bien que ce ne soit pas demandé dans la question, n'hésitez pas à vérifier votre stratégie en l'implémentant comme un script Blender !
+
+\begin{center} \includegraphics[width=.45\linewidth]{images/grille-3d.png} \end{center}
+
+Voici une vue de face d'une portion de la grille avec les dimensions correspondantes~:
+
+\begin{center} \includegraphics{images/grille.pdf} \end{center}
+
+\begin{solution}
+Ajouter votre solution ici
+\end{solution}
+
+% Textures
+\question[20]
+Considérez la texture suivante $T$ décrite par une image de dimensions $512 \times 768$ pixels$^2$
+\begin{center} \includegraphics{images/texture.pdf} \end{center}
+Supposez que la couleur du pixel de la $i$-ième ligne et $j$-ième colonne est donné par $T[i][j]$ et supposez que vous avez un cube $C$ dont le centre est donné par $C.\Call{centre}{}$ et la demi-longueur d'un côté est $C.\Call{rayon}{}$.
+Donnez le pseudocode d'une fonction dont l'en-tête est
+\entetefunc{CouleurPixel}{$p$ : point, $C$ : cube, $T$ : texture}{couleur}
+qui indique pour chaque point $p$ qui se trouve sur le cube $C$, la couleur du pixel qu'il devrait avoir. Il y a plusieurs solutions possibles à ce problème, mais vous devez respecter les contraintes suivantes~:
+\begin{itemize}
+  \item Chacun des 6 chiffres doit apparaître sur une face;
+  \item Deux faces opposées doivent avoir une somme de $7$.
+\end{itemize}
+\textbf{Remarque~:} vous n'avez pas à valider si $p$ est bien un point qui se trouve sur le cube, vous pouvez supposer que c'est toujours le cas.
+\begin{solution}
+Ajouter votre solution ici
+\end{solution}
+
+% Trajectoire
+\question[15]
+Deux objets décrivent une trajectoire rectiligne dans l'espace 3D selon les fonctions vectorielles suivantes~:
+\begin{eqnarray*}
+  \vec{r_1}(t) & = & (t + 5, 2t - 2, 3t - 1) \\
+  \vec{r_2}(t) & = & (3t - 3, 2t - 2, 15 - t),
+\end{eqnarray*}
+pour $t \geq 0$, où $t$ représente le temps en heures. Est-ce que les trajectoires des objets s'intersectent ? Est-ce que les objets entreront en collision ? Si oui, à quel moment ? Justifiez.
+\begin{solution}
+Ajouter votre solution ici
+\end{solution}
+
+% Lumière
+\question[20]
+Considérez un cube dont les 8 sommets sont $(\pm 1, \pm 1, 1 \pm 1)$ et qui repose sur le plan $z = 0$. Une source de lumière se trouve en position $(4,4,2)$ et éclaire tout point de l'espace avec la même intensité, peu importe la distance (s'il existe un d'obstacle entre le point et la source de lumière, alors la lumière ne parvient pas au point). Décrivez la forme de l'ombre induite par le cube sur le plan et calculez son aire. \emph{Remarque~:} N'hésitez pas à joindre un schéma de la situation pour mieux expliquer votre réponse.
+\begin{solution}
+Ajouter votre solution ici
+\end{solution}
+
+\end{questions}
+
+\end{document}
