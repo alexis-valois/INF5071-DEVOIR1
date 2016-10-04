@@ -106,12 +106,43 @@ Supposons qu'une application graphique utilise des images de dimensions $64 \tim
 Autrement dit, donnez le pseudocode d'une fonction
 \entetefunc{CoinSupGauche}{$i,j$ : indices}{point}
 qui retourne la position que devrait occuper le coin supérieur gauche du rectangle contenant la tuile aux indices $i$ et $j$. Par exemple, on s'attend à ce que l'appel $\Call{CoinSupGauche}{4,2}$ retourne la valeur $(352,192)$ (voir le rectangle bleu dans l'image ci-haut).
+	\newpage
+	\begin{solution}
+		\begin{algorithmic}[1]
+		\Procedure{CoinSupGauche}{$i,j$ : indices} : {point}
+		\State $x\gets 288$
+		\State $y\gets 288$
+	
+		\State $x\gets x + (i * 32)$
+		\State $y\gets y - (i * 16)$
+	
+		\State $x\gets x - (j * 32)$
+		\State $y\gets y - (j * 16)$
+		
+		\State \textbf{return} $(x,y)$
+		\EndProcedure
+		\end{algorithmic}
+	\end{solution}
+
   \part[10] Dans la question ci-bas, nous avons supposé que toutes les tuiles se trouvaient à la même hauteur. Supposons que nous souhaitions également supporter la possibilité d'afficher des tuiles plus hautes que d'autres. En utilisant des notions d'algèbres linéaire et vectorielle, expliquez de quelle façon vous traiteriez cette situation et montrez en particulier que certaines tuiles à des hauteurs différentes pourraient apparaître exactement au même endroit.
   \bonuspart[5] Le concepteur principal d'un jeu appelé \emph{Super Hexagon} est auteur d'un autre jeu qui exploite le fait que différentes tuiles à des hauteurs différentes apparaissent au même endroit. Quel est le nom de ce jeu et qui en est l'auteur ?
 \end{parts}
-\begin{solution}
-Ajouter votre solution ici
-\end{solution}
+%\begin{solution}
+%	\begin{algorithmic}[1]
+%	\Procedure{CoinSupGauche}{$i,j$ : indices} : {point}
+%	\State $x\gets 288$
+%	\State $y\gets 288$
+%
+%	\State $x\gets x + (i * 32)$
+%	\State $y\gets y - (i * 16)$
+%
+%	\State $x\gets x - (j * 32)$
+%	\State $y\gets y - (j * 16)$
+%	
+%	\State \textbf{return} $(x,y)$
+%	\EndProcedure
+%	\end{algorithmic}
+%\end{solution}
 
 % Génération procédurale
 \question[20]
