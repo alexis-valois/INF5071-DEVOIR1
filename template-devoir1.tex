@@ -217,17 +217,17 @@ Voici une vue de face d'une portion de la grille avec les dimensions corresponda
 \begin{solution}
 	\begin{algorithmic}[1]
 	\Procedure{Rectangle}{$m$: maillage, $x,y,x,h,l$: réels, $inclinaison$: chaîne, $flipVertex$=Faux: booléen}
-	\If {$inclinaison == "FACE"$}
+	\If {$inclinaison = "FACE"$}
 		\State $s1\gets (x,y,z)$
 	 	\State $s2\gets (x + l,y,z)$
 		\State $s3\gets (x + l,y,z - h)$
 		\State $s4\gets (x,y,z - h)$
-	\ElsIf {$inclinaison == "COUCHE"$}
+	\ElsIf {$inclinaison = "COUCHE"$}
 	   	\State $s1\gets (x,y,z)$
 	 	\State $s2\gets (x,y + h,z)$
 		\State $s3\gets (x + l,y + h,z)$
 		\State $s4\gets (x + l,y,z)$
-	\ElsIf {$inclinaison == "COTE"$}
+	\ElsIf {$inclinaison = "COTE"$}
 	   	\State $s1\gets (x,y,z)$
 	 	\State $s2\gets (x,y + l,z)$
 		\State $s3\gets (x,y + l,z - h)$
@@ -255,13 +255,13 @@ Voici une vue de face d'une portion de la grille avec les dimensions corresponda
 	\EndProcedure
 \newpage
 	\Procedure{Tige}{$m$: maillage, $x,y,z,e,d$: réels,  $sens$: chaîne,  $inclinaison$: chaîne, $flipVertex$=Faux: booléen}
-	\If {$sens == "DROITE"$}
+	\If {$sens = "DROITE"$}
 		\State \Call{Rectangle}{m, x, y, z, e, e, inclinaison, flipVertex}
 		\State \Call{Rectangle}{m, x + e, y, z, e, d, inclinaison, flipVertex}
 		\State \Call{Rectangle}{m, x + e + d, y, z, e, e, inclinaison, flipVertex}
 	\EndIf
 
-	\If {$sens == "BAS"$}
+	\If {$sens = "BAS"$}
 		\State \Call{Rectangle}{m, x, y, z, e, e, inclinaison, flipVertex}
 		\State \Call{Rectangle}{m, x, y, z - e, e, d, inclinaison, flipVertex}
 		\State \Call{Rectangle}{m, x, y, z - e - d, e, e, inclinaison, flipVertex}
@@ -296,15 +296,6 @@ Voici une vue de face d'une portion de la grille avec les dimensions corresponda
 	\EndProcedure
 \newpage
 	\Procedure{Grille}{$m,n$: entiers positifs, $d,e$ : réels}{maillage}
-%bm = MaillageVide()
-%    x = 0.0 
-%    y = 0.0
-%    z = 0.0
-%    for i in range(0,m):
-%        z = i * (e + d)
-%        for j in range(0,n):
-%            x = j * (e + d)
-%            carre(bm, x,y,z,e,d)
 	\State  $maillage\gets \Call{MaillageVide}{}$
 	\State  $x\gets 0.0$
 	\State  $y\gets 0.0$
@@ -336,8 +327,79 @@ qui indique pour chaque point $p$ qui se trouve sur le cube $C$, la couleur du p
   \item Deux faces opposées doivent avoir une somme de $7$.
 \end{itemize}
 \textbf{Remarque~:} vous n'avez pas à valider si $p$ est bien un point qui se trouve sur le cube, vous pouvez supposer que c'est toujours le cas.
+
+
 \begin{solution}
-Ajouter votre solution ici
+	\begin{algorithmic}
+	\Function{CouleurPixel}{$p$ : point, $C$ : cube, $T$ : texture} : {couleur}
+	\State var $i, j$
+	\State $centre \gets \Call{C.Centre}{}$
+	\State $rayon \gets \Call{C.Rayon}{}$
+
+	\If 
+	{$
+		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
+		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
+		\indent p.z = (centre.z + rayon)
+	$}
+		\State $i \gets 0$
+		\State $j \gets 0$
+	\EndIf
+
+	\If 
+	{$
+		p.x = (centre.x + rayon) \land \newline
+		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
+		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
+		
+	$}
+		\State $i \gets 0$
+		\State $j \gets 1$
+	\EndIf
+
+	\If 
+	{$
+		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
+		\indent p.y = (centre.y - rayon) \land \newline
+		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
+	$}
+		\State $i \gets 0$
+		\State $j \gets 2$
+	\EndIf
+
+	\If 
+	{$
+		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
+		\indent p.y = (centre.y + rayon) \land \newline
+		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
+	$}
+		\State $i \gets 1$
+		\State $j \gets 0$
+	\EndIf
+
+	\If 
+	{$
+		p.x = (centre.x - rayon) \land \newline
+		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
+		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
+	$}
+		\State $i \gets 1$
+		\State $j \gets 1$
+	\EndIf
+
+	\If 
+	{$
+		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
+		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
+		\indent p.z = (centre.z - rayon)
+	$}
+		\State $i \gets 1$
+		\State $j \gets 2$
+	\EndIf
+
+	\State \textbf{return} \Call{T}{$i, j$}
+	\EndFunction
+	\end{algorithmic}
 \end{solution}
 
 % Trajectoire

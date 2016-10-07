@@ -5,3 +5,4 @@
 !enonce-devoir1.pdf
 *.exe
 *.gz
+*.gz(busy)
