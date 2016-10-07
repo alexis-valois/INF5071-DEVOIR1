@@ -21,7 +21,7 @@ def FinaliserBmesh(bm):
     obj = bpy.data.objects.new("Object", me)
     scene.objects.link(obj)
 
-def rectangle(bm,x,y,z,h,l, inclinaison):
+def rectangle(bm,x,y,z,h,l, inclinaison, flipVertex = False):
     if (inclinaison == "FACE"):
         v1 = mathutils.Vector((x, y, z))
         v2 = mathutils.Vector((x + l, y, z))
@@ -45,6 +45,8 @@ def rectangle(bm,x,y,z,h,l, inclinaison):
     
     P = [s1, s2, s3, s4]
     
+    if flipVertex : P.reverse
+    
     AjouterArrete(bm, s1, s2)
     AjouterArrete(bm, s2, s3)
     AjouterArrete(bm, s3, s4)
@@ -52,35 +54,35 @@ def rectangle(bm,x,y,z,h,l, inclinaison):
     
     AjouterFace(bm, P) 
 
-def tige(bm,x,y,z,e,d,sens,inclinaison):
+def tige(bm,x,y,z,e,d,sens,inclinaison, flipVertex = False):
     if sens == "DROITE":
-        rectangle(bm, x, y, z, e, e, inclinaison)
-        rectangle(bm, x + e, y, z, e, d, inclinaison)
-        rectangle(bm, x + e + d, y, z, e, e, inclinaison)
+        rectangle(bm, x, y, z, e, e, inclinaison, flipVertex)
+        rectangle(bm, x + e, y, z, e, d, inclinaison, flipVertex)
+        rectangle(bm, x + e + d, y, z, e, e, inclinaison, flipVertex)
         
     if sens == "BAS":
-        rectangle(bm, x, y, z, e, e, inclinaison)
-        rectangle(bm, x, y, z - e, d, e, inclinaison)
-        rectangle(bm, x, y, z - e - d, e, e, inclinaison)
+        rectangle(bm, x, y, z, e, e, inclinaison,flipVertex)
+        rectangle(bm, x, y, z - e, d, e, inclinaison,flipVertex)
+        rectangle(bm, x, y, z - e - d, e, e, inclinaison,flipVertex)
 
-def cadre(bm,x,y,z,e,d):
-    tige(bm,x,y,z,e,d, "DROITE", "FACE")
-    tige(bm,x + e + d,y,z,e,d, "BAS", "FACE")
-    tige(bm,x,y,z -e - d,e,d, "DROITE", "FACE")
-    tige(bm,x,y,z,e,d, "BAS", "FACE")
+def cadre(bm,x,y,z,e,d,flipVertex = False):
+    tige(bm,x,y,z,e,d, "DROITE", "FACE",flipVertex)
+    tige(bm,x + e + d,y,z,e,d, "BAS", "FACE",flipVertex)
+    tige(bm,x,y,z -e - d,e,d, "DROITE", "FACE",flipVertex)
+    tige(bm,x,y,z,e,d, "BAS", "FACE",flipVertex)
     
 def contour(bm, x, y, z, e, d):
     tige(bm,x,y,z,e,d, "DROITE", "COUCHE")
     tige(bm, x + 2.0 * e + d,y,z,e,d, "BAS", "COTE")
-    tige(bm,x,y,z - 2 * e - d,e,d, "DROITE", "COUCHE")
-    tige(bm, x,y,z,e,d, "BAS", "COTE")
+    tige(bm,x,y,z - 2 * e - d,e,d, "DROITE", "COUCHE", True)
+    tige(bm, x,y,z,e,d, "BAS", "COTE", True)
 
 def carre(bm, x,y,z,e,d):
     cadre(bm, x,y,z, e, d)
-    cadre(bm, x, y + e, z, e, d)
+    cadre(bm, x, y + e, z, e, d, True)
     contour(bm, x,y,z,e,d)
-    rectangle(bm,x + e,y,z - e,e,d, "COUCHE")
-    rectangle(bm,x + e + d,y,z - e,d,e, "COTE")
+    rectangle(bm,x + e,y,z - e,e,d, "COUCHE", True)
+    rectangle(bm,x + e + d,y,z - e,d,e, "COTE", True)
     rectangle(bm,x + e,y,z - e - d,e,d, "COUCHE")
     rectangle(bm,x + e,y,z - e,d,e, "COTE")
 
