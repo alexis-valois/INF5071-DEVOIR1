@@ -109,7 +109,7 @@ qui retourne la position que devrait occuper le coin supérieur gauche du rectan
 	\newpage
 	\begin{solution}
 		\begin{algorithmic}[1]
-		\Procedure{CoinSupGauche}{$i,j$ : indices} : {point}
+		\Function{CoinSupGauche}{$i,j$ : indices} : {point}
 		\State $x\gets 288$
 		\State $y\gets 288$
 	
@@ -120,7 +120,7 @@ qui retourne la position que devrait occuper le coin supérieur gauche du rectan
 		\State $y\gets y - (j * 16)$
 		
 		\State \textbf{return} $(x,y)$
-		\EndProcedure
+		\EndFunction
 		\end{algorithmic}
 	\end{solution}
 
@@ -216,7 +216,108 @@ Voici une vue de face d'une portion de la grille avec les dimensions corresponda
 \newpage
 \begin{solution}
 	\begin{algorithmic}[1]
-	\Procedure{Grille}{$m,n$ : entiers positifs, $d,e$ : réels}{maillage}
+	\Procedure{Rectangle}{$m$: maillage, $x,y,x,h,l$: réels, $inclinaison$: chaîne, $flipVertex$=Faux: booléen}
+	\If {$inclinaison == "FACE"$}
+		\State $s1\gets (x,y,z)$
+	 	\State $s2\gets (x + l,y,z)$
+		\State $s3\gets (x + l,y,z - h)$
+		\State $s4\gets (x,y,z - h)$
+	\ElsIf {$inclinaison == "COUCHE"$}
+	   	\State $s1\gets (x,y,z)$
+	 	\State $s2\gets (x,y + h,z)$
+		\State $s3\gets (x + l,y + h,z)$
+		\State $s4\gets (x + l,y,z)$
+	\ElsIf {$inclinaison == "COTE"$}
+	   	\State $s1\gets (x,y,z)$
+	 	\State $s2\gets (x,y + l,z)$
+		\State $s3\gets (x,y + l,z - h)$
+		\State $s4\gets (x,y,z - h)$
+	\EndIf
+	
+	\State \Call{m.AjouterSommet}{s1}
+	\State \Call{m.AjouterSommet}{s2}
+	\State \Call{m.AjouterSommet}{s3}
+	\State \Call{m.AjouterSommet}{s4}
+
+	\State \Call{m.AjouterArrete}{s1,s2}
+	\State \Call{m.AjouterArrete}{s2,s3}
+	\State \Call{m.AjouterArrete}{s3,s4}
+	\State \Call{m.AjouterArrete}{s4,s1}
+
+	\State $P\gets [s1,s2,s3,s4]$
+
+	\If {$flipVertex$}
+		\State \Call{P.Reverse}{}
+	\EndIf
+
+	\State \Call{m.AjouterFace}{P}
+
+	\EndProcedure
+\newpage
+	\Procedure{Tige}{$m$: maillage, $x,y,z,e,d$: réels,  $sens$: chaîne,  $inclinaison$: chaîne, $flipVertex$=Faux: booléen}
+	\If {$sens == "DROITE"$}
+		\State \Call{Rectangle}{m, x, y, z, e, e, inclinaison, flipVertex}
+		\State \Call{Rectangle}{m, x + e, y, z, e, d, inclinaison, flipVertex}
+		\State \Call{Rectangle}{m, x + e + d, y, z, e, e, inclinaison, flipVertex}
+	\EndIf
+
+	\If {$sens == "BAS"$}
+		\State \Call{Rectangle}{m, x, y, z, e, e, inclinaison, flipVertex}
+		\State \Call{Rectangle}{m, x, y, z - e, e, d, inclinaison, flipVertex}
+		\State \Call{Rectangle}{m, x, y, z - e - d, e, e, inclinaison, flipVertex}
+	\EndIf
+
+	\EndProcedure
+\newline
+	\Procedure{Cadre}{$m$: maillage, $x,y,x,e,d$: réels, $flipVertex$=Faux: booléen}
+	\State \Call{Tige}{m, x, y, z, e, d, "DROITE", "FACE", flipVertex}
+	\State \Call{Tige}{m, x + e + d, y, z, e, d, "BAS", "FACE", flipVertex}
+	\State \Call{Tige}{m, x, y, z - e - d, e, d, "DROITE", "FACE", flipVertex}
+	\State \Call{Tige}{m, x, y, z, e, d, "BAS", "FACE", flipVertex}
+	\EndProcedure
+\newline
+	\Procedure{Contour}{$m$: maillage, $x,y,x,e,d$: réels}
+	\State \Call{Tige}{m, x, y, z, e, d, "DROITE", "COUCHE"}
+	\State \Call{Tige}{m, x + 2 * e + d, y, z, e, d, "BAS", "COTE"}
+	\State \Call{Tige}{m, x, y, z - 2 * e - d, e, d, "DROITE", "COUCHE", Vrai}
+	\State \Call{Tige}{m, x, y, z, e, d, "BAS", "COTE", Vrai}
+	\EndProcedure
+\newline
+	\Procedure{Carre}{$m$: maillage, $x,y,x,e,d$: réels}
+	\State \Call {Cadre}{m, x, y, z, e, d}
+	\State \Call {Cadre}{m, x, y + e, z, e, d, Vrai}
+	\State \Call {Contour}{m, x, y, z, e, d}
+	
+	\State \Call{Rectangle}{m, x + e, y, z - e, e, d, "COUCHE", Vrai}
+	\State \Call{Rectangle}{m, x + e + d, y, z - e, d, e, "COTE", Vrai}
+	\State \Call{Rectangle}{m, x + e, y, z - e - d, e, d, "COUCHE"}
+	\State \Call{Rectangle}{m, x + e, y, z - e, d, e, "COTE"}
+	
+	\EndProcedure
+\newpage
+	\Procedure{Grille}{$m,n$: entiers positifs, $d,e$ : réels}{maillage}
+%bm = MaillageVide()
+%    x = 0.0 
+%    y = 0.0
+%    z = 0.0
+%    for i in range(0,m):
+%        z = i * (e + d)
+%        for j in range(0,n):
+%            x = j * (e + d)
+%            carre(bm, x,y,z,e,d)
+	\State  $maillage\gets \Call{MaillageVide}{}$
+	\State  $x\gets 0.0$
+	\State  $y\gets 0.0$
+	\State  $z\gets 0.0$
+
+	\For{$i$ entre 0 et $m$}
+		\State  $z\gets i * (e + d)$
+		\For{$j$ entre 0 et $n$}
+			\State  $x\gets j * (e + d)$
+			\State \Call{Carre}{maillage, x, y, z, e, d}
+		\EndFor
+	\EndFor	
+
 	\EndProcedure
 	\end{algorithmic}
 \end{solution}
