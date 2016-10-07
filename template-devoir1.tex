@@ -125,24 +125,70 @@ qui retourne la position que devrait occuper le coin supérieur gauche du rectan
 	\end{solution}
 
   \part[10] Dans la question ci-bas, nous avons supposé que toutes les tuiles se trouvaient à la même hauteur. Supposons que nous souhaitions également supporter la possibilité d'afficher des tuiles plus hautes que d'autres. En utilisant des notions d'algèbres linéaire et vectorielle, expliquez de quelle façon vous traiteriez cette situation et montrez en particulier que certaines tuiles à des hauteurs différentes pourraient apparaître exactement au même endroit.
+	\begin{solution}
+		Pour traiter la situation, on pourrait ajouter une 3e composante à la grille; appelons-là \emph{K}. Elle servirait à spécifier la hauteur d'une tuile. Elle agirait sur la tuile en décrémentant les composantes \emph{Y} des points qui constituent la tuile et la façon suivante :
+\[
+\begin{bmatrix}
+    x_{1}       & y_{1} \\
+    x_{2}       & y_{2} \\
+    x_{3}       & y_{3} \\
+    x_{4}       & y_{4} \\
+\end{bmatrix}
+-
+\begin{bmatrix}
+    0       & K \\
+    0       & K\\
+    0       & K\\
+    0       & K\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{1}       & y_{1} - K \\
+    x_{2}       & y_{2} - K\\
+    x_{3}       & y_{3} - K\\
+    x_{4}       & y_{4} - K\\
+\end{bmatrix}
+\]
+Alors, pour 
+\[
+	k \in \N \implies k \mod 32 = 0
+\]
+la tuile pourrait se situer exactement au même endroit qu'une des tuiles sans hauteur. Voici un example : 
+\[
+k = 32, i = 0, j = 0
+\]
+\[
+\begin{bmatrix}
+    320       & 320 \\
+    352       & 304 \\
+    320       & 288 \\
+    288       & 304 \\
+\end{bmatrix}
+-
+\begin{bmatrix}
+    0       & 32 \\
+    0       & 32\\
+    0       & 32\\
+    0       & 32\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    320       & 288 \\
+    352       & 272\\
+    320       & 256\\
+    288       & 272\\
+\end{bmatrix}
+\]
+ce qui correspond au coordonnées des points de la tuile située en
+\[
+k = 0, i = 1, j = 1
+\]
+	\end{solution}
   \bonuspart[5] Le concepteur principal d'un jeu appelé \emph{Super Hexagon} est auteur d'un autre jeu qui exploite le fait que différentes tuiles à des hauteurs différentes apparaissent au même endroit. Quel est le nom de ce jeu et qui en est l'auteur ?
+	\begin{solution}
+		Le jeu se nomme \emph{Hexagon} et son créateur est \emph{Terry Cavanagh}.
+	\end{solution}
 \end{parts}
-%\begin{solution}
-%	\begin{algorithmic}[1]
-%	\Procedure{CoinSupGauche}{$i,j$ : indices} : {point}
-%	\State $x\gets 288$
-%	\State $y\gets 288$
-%
-%	\State $x\gets x + (i * 32)$
-%	\State $y\gets y - (i * 16)$
-%
-%	\State $x\gets x - (j * 32)$
-%	\State $y\gets y - (j * 16)$
-%	
-%	\State \textbf{return} $(x,y)$
-%	\EndProcedure
-%	\end{algorithmic}
-%\end{solution}
 
 % Génération procédurale
 \question[20]
@@ -167,10 +213,14 @@ et qui retourne un maillage modélisant une grille de $m$ carrés par $n$ carré
 Voici une vue de face d'une portion de la grille avec les dimensions correspondantes~:
 
 \begin{center} \includegraphics{images/grille.pdf} \end{center}
-
+\newpage
 \begin{solution}
-Ajouter votre solution ici
+	\begin{algorithmic}[1]
+	\Procedure{Grille}{$m,n$ : entiers positifs, $d,e$ : réels}{maillage}
+	\EndProcedure
+	\end{algorithmic}
 \end{solution}
+
 
 % Textures
 \question[20]
