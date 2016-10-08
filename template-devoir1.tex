@@ -408,7 +408,33 @@ Deux objets décrivent une trajectoire rectiligne dans l'espace 3D selon les fon
 \end{eqnarray*}
 pour $t \geq 0$, où $t$ représente le temps en heures. Est-ce que les trajectoires des objets s'intersectent ? Est-ce que les objets entreront en collision ? Si oui, à quel moment ? Justifiez.
 \begin{solution}
-Ajouter votre solution ici
+On cherche la valeure  \emph{t} (si elle existe) pour laquelle les 3 composantes  \emph{X, Y} et  \emph{Z} des 2 fonctions vectorielles sont égaux (collision). Commençons par trouver une valeure de  \emph{t} qui satisfait cette condition pour la composante \emph{X}:
+
+\begin{align*} 
+t + 5 & = 3t - 3 \\
+5 & = 2t - 3 \\ 
+8 & = 2t \\ 
+4 & = t
+\end{align*}
+
+Vérifions maintenant si la composante \emph{Y} des 2 objets est égale pour t = 4 : 
+
+\begin{align*} 
+2t - 2 & = 2t - 2 \\
+2(4) - 2 & = 2(4) - 2 \\
+6 & = 6 \\
+\end{align*}
+
+Vérifions maintenant si la composante \emph{Z} des 2 objets est égale pour t = 4 : 
+
+\begin{align*} 
+3t - 1 & = 15 - t \\
+3(4) - 1 & = 15 - (4) \\
+11 & = 11
+\end{align*}
+
+Comme la valeur satisfait les 3 composantes, on peut conclure que la collision à bien lieu. Elle survient lorsque t = 4.
+
 \end{solution}
 
 % Lumière
