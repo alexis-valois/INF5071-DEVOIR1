@@ -327,8 +327,6 @@ qui indique pour chaque point $p$ qui se trouve sur le cube $C$, la couleur du p
   \item Deux faces opposées doivent avoir une somme de $7$.
 \end{itemize}
 \textbf{Remarque~:} vous n'avez pas à valider si $p$ est bien un point qui se trouve sur le cube, vous pouvez supposer que c'est toujours le cas.
-
-
 \begin{solution}
 	\begin{algorithmic}
 	\Function{CouleurPixel}{$p$ : point, $C$ : cube, $T$ : texture} : {couleur}
@@ -337,62 +335,61 @@ qui indique pour chaque point $p$ qui se trouve sur le cube $C$, la couleur du p
 	\State $rayon \gets \Call{C.Rayon}{}$
 
 	\If 
-	{$
-		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
-		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
-		\indent p.z = (centre.z + rayon)
-	$}
+	{
+		$(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline$
+		$\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline$
+		$\indent p.z = (centre.z + rayon)$
+	}
 		\State $i \gets 0$
 		\State $j \gets 0$
 	\EndIf
 
-	\If 
-	{$
-		p.x = (centre.x + rayon) \land \newline
-		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
-		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
-		
-	$}
+	\If
+	{
+		$p.x = (centre.x + rayon) \land \newline$
+		$\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline$
+		$\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon)$
+	}
 		\State $i \gets 0$
 		\State $j \gets 1$
 	\EndIf
 
 	\If 
-	{$
-		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
-		\indent p.y = (centre.y - rayon) \land \newline
-		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
-	$}
+	{
+		$(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline$
+		$\indent p.y = (centre.y - rayon) \land \newline$
+		$\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon)$
+	}
 		\State $i \gets 0$
 		\State $j \gets 2$
 	\EndIf
 
 	\If 
-	{$
-		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
-		\indent p.y = (centre.y + rayon) \land \newline
-		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
-	$}
+	{
+		$(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline$
+		$\indent p.y = (centre.y + rayon) \land \newline$
+		$\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon)$
+	}
 		\State $i \gets 1$
 		\State $j \gets 0$
 	\EndIf
 
 	\If 
-	{$
-		p.x = (centre.x - rayon) \land \newline
-		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
-		\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon) \land \newline
-	$}
+	{
+		$p.x = (centre.x - rayon) \land \newline$
+		$\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline$
+		$\indent (centre.z - rayon) \leq p.z \leq (centre.z + rayon)$
+	}
 		\State $i \gets 1$
 		\State $j \gets 1$
 	\EndIf
 
 	\If 
-	{$
-		(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline
-		\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline
-		\indent p.z = (centre.z - rayon)
-	$}
+	{
+		$(centre.x - rayon) \leq p.x \leq (centre.x + rayon) \land \newline$
+		$\indent (centre.y - rayon) \leq p.y \leq (centre.y + rayon) \land \newline$
+		$\indent p.z = (centre.z - rayon)$
+	}
 		\State $i \gets 1$
 		\State $j \gets 2$
 	\EndIf
