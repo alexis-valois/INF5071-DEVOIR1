@@ -408,7 +408,7 @@ Deux objets décrivent une trajectoire rectiligne dans l'espace 3D selon les fon
 \end{eqnarray*}
 pour $t \geq 0$, où $t$ représente le temps en heures. Est-ce que les trajectoires des objets s'intersectent ? Est-ce que les objets entreront en collision ? Si oui, à quel moment ? Justifiez.
 \begin{solution}
-On cherche la valeure  \emph{t} (si elle existe) pour laquelle les 3 composantes  \emph{X, Y} et  \emph{Z} des 2 fonctions vectorielles sont égaux (collision). Commençons par trouver une valeure de  \emph{t} qui satisfait cette condition pour la composante \emph{X}:
+On cherche la valeur \emph{t} (si elle existe) pour laquelle les 3 composantes \emph{X, Y} et \emph{Z} des 2 fonctions vectorielles sont égales (collision). Commençons par trouver une valeur de \emph{t} qui satisfait cette condition pour la composante \emph{X}:
 
 \begin{align*} 
 t + 5 & = 3t - 3 \\
@@ -440,8 +440,63 @@ Comme la valeur satisfait les 3 composantes, on peut conclure que la collision �
 % Lumière
 \question[20]
 Considérez un cube dont les 8 sommets sont $(\pm 1, \pm 1, 1 \pm 1)$ et qui repose sur le plan $z = 0$. Une source de lumière se trouve en position $(4,4,2)$ et éclaire tout point de l'espace avec la même intensité, peu importe la distance (s'il existe un d'obstacle entre le point et la source de lumière, alors la lumière ne parvient pas au point). Décrivez la forme de l'ombre induite par le cube sur le plan et calculez son aire. \emph{Remarque~:} N'hésitez pas à joindre un schéma de la situation pour mieux expliquer votre réponse.
+
 \begin{solution}
-Ajouter votre solution ici
+Pour déterminer la forme de l'ombre induite par le cube, on doit tout d'abord trouver l'équation paramétrique définissant le vecteur entre les points L (lumière, voir schéma) et chacun des sommets du cube \emph{qui ne possèdent pas d'obstacle entre leur position, la source lumineuse L et le plan Z}. Ensuite, on détermine la valeur du paramètre lorsque la composante Z vaut 0. En utilisant ce paramètre, on peut trouver les valeurs X et Y du point où le rayon lumineux touche le plan Z, marquant ainsi un des sommets de la forme de l'ombre. Dans le cas présent, on peut considérer que les sommets E,F,G et H font partie de l'ombre puisqu'ils touchent le plan Z. Les sommets A et B du cube ne peuvent pas être considérés, car leur hauteur Z est égale à la hauteur de la source lumineuse ; \emph{une droite passant par la source L et un de ces sommets serait alors parallèle au plan Z}. On doit donc utiliser d'autres points du cube pour estimer la forme de l'ombre. Ici : on a choisi les points $C(-1,1,1)$ et $D(1,-1,1)$. \\ Définissons l'équation paramétrique de la droite passant par L et C d'après le vecteur $\vec{LC}$: 
+
+$\vec{LC} = C - L = ( (-1 - 4) , (1-4) , (1-2) ) = (-5,-3,-1)$\\
+$
+\left \{
+   \begin{array}{r c l}
+      X & = & -1 + -5t \\
+      Y & = & 1 + -3t \\
+      Z & = & 1 + -t
+   \end{array}
+\right .
+$\\
+On doit maintenant trouver la valeur de $t$ pour laquelle la droite croise le plan, i.e : lorsque $Z = 0$ : 
+
+\begin{align*} 
+0 & = 1 - t \\
+-1 & = -t \\ 
+1 & = t 
+\end{align*}
+\newline
+On remplace alors cette valeur de $t$ pour trouver la valeur des autres composantes : 
+$
+\left \{
+   \begin{array}{r c l}
+      X & = & -1 + -5(1) = -6\\
+      Y & = & 1 + -3(1) =  -2
+   \end{array}
+\right .
+$\\
+\newpage
+Il nous reste à faire la même chose avec le vecteur $\vec{LD}$: 
+
+$\vec{LD} = D - L = ( (1 - 4) , (-1-4) , (1-2) ) = (-3,-5,-1)$\\
+$
+\left \{
+   \begin{array}{r c l}
+      X & = & 1 + -3t \\
+      Y & = & 1 + -5t \\
+      Z & = & 1 + -t
+   \end{array}
+\right .
+$\\
+La valeur de $t$ lorsque $z = 0$ est la même que précédemment.
+On remplace alors cette valeur de $t$ pour trouver la valeur des autres composantes : \\
+$
+\left \{
+   \begin{array}{r c l}
+      X & = & -1 + -3(1) = -2\\
+      Y & = & 1 + -5(1) =  -6
+   \end{array}
+\right .
+$\\
+Le schéma suivant montre la forme qu'aura l'ombre. Il n'est pas possible de donner l'air de cette forme, car 2 des points qui la constituent ont leur position à des distances infinies.
+
+\begin{center} \includegraphics[width=1\linewidth]{images/q5.png} \end{center}
 \end{solution}
 
 \end{questions}
